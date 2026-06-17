@@ -45,3 +45,22 @@ plt.ylabel("taux d'acces (en %)")
 plt.axis()
 
 plt.show()
+
+# 2eme nuage de point
+
+plt.plot(rang_dernier_appele_groupe1, taux_acces, 'ro')
+plt.xlabel("rang du dernier appeler du groupe 1")
+plt.ylabel("taux d'acces (en %)")
+plt.axis()
+
+plt.show()
+
+
+# 3eme nuage de point
+
+plt.plot(departement_code, taux_acces, 'ro')
+plt.xlabel("Code de département")
+plt.ylabel("taux d'acces (en %)")
+plt.axis([0, 100, 0, 100])
+
+plt.show()
