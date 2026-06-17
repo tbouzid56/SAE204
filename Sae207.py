@@ -16,4 +16,17 @@ arr_formation = df_formation.to_numpy()
 
 
 taux_acces = arr_formation[:,0]
-print(taux_acces)
+#print(taux_acces)
+
+
+rang_dernier_appele_groupe1 = arr_formation[:,1]
+#print(rang_dernier_appele_groupe1)
+
+
+effectif_total_candidats = arr_formation[:,2]
+#print(effectif_total_candidats)
+
+departement_code = arr_formation[:,3]
+#print(departement_code)
+
+
