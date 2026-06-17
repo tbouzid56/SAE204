@@ -32,9 +32,15 @@ departement_code = arr_formation[:,3]
 
 
 # Boites a moustaches 
-liste_boites = [taux_acces, departement_code]
+liste_boites = [taux_acces, departement_code, effectif_total_candidats]
 plt.boxplot(liste_boites)
 plt.show()
+
+# 2eme Boites a moustaches 
+liste_boites2 = [taux_acces, effectif_total_candidats]
+plt.boxplot(liste_boites2)
+plt.show()
+
 
 
 # Nuage de points
