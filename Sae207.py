@@ -30,3 +30,10 @@ departement_code = arr_formation[:,3]
 #print(departement_code)
 
 
+
+# Boites a moustaches 
+liste_boites = [taux_acces, departement_code]
+plt.boxplot(liste_boites)
+plt.show()
+
+
