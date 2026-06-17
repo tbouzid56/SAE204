@@ -37,3 +37,11 @@ plt.boxplot(liste_boites)
 plt.show()
 
 
+# Nuage de points
+
+plt.plot(effectif_total_candidats, taux_acces, 'ro')
+plt.xlabel("effectif total des candidats ")
+plt.ylabel("taux d'acces (en %)")
+plt.axis()
+
+plt.show()
