@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy.linalg as la
 
 # importer le csv dans le python
 df_formation =  pd.read_csv("export_csv.csv", sep=";") #ici, préciser le séparateur du csv permet d'évite que les cases contiennes tous des guillemets 
@@ -70,3 +71,40 @@ plt.ylabel("taux d'acces (en %)")
 plt.axis([0, 100, 0, 100])
 
 plt.show()
+
+
+
+# Régression linéaire 
+
+nb_lignes = len(taux_acces)
+
+# initialiser X
+X = np.zeros((nb_lignes, 5))
+
+
+# ajout collone par collone
+X[:, 0] = np.ones(nb_lignes)                  
+X[:, 1] = rang_dernier_appele_groupe1
+X[:, 2] = effectif_total_candidats 
+X[:, 3] = departement_code 
+
+# cration de la matrice Y
+Y = np.array(taux_acces)
+
+# transposer de X
+tX = X.T
+
+# Résultat de produit matriciel entre la transpose de X et X
+M = tX @ X
+
+# Matrice inverce de la matrice M
+M2 = la.inv(M)
+
+# Résultat de produit matriciel entre la transpose de X et Y
+N = tX @ Y
+
+# Calcule de la Matrice A
+A = M2 @ N
+
+# Affichage de la matrice A
+print(A)
