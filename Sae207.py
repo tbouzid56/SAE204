@@ -15,19 +15,25 @@ df_formation =  pd.read_csv("export_csv.csv", sep=";") #ici, préciser le sépar
 arr_formation = df_formation.to_numpy() 
 # print(arr_formation)
 
+# verif ligne par ligne de si oui ou non y a une valeur null
+lignes_avec_nan = np.isnan(arr_formation).any(axis=1)
 
-taux_acces = arr_formation[:,0]
+# pour supprimer les lignes avec une valeur null (le ~ c'est pour tous garder sauf ce que y a dans lignes avec nan)
+arr_formation_propre = arr_formation[~lignes_avec_nan]
+
+
+taux_acces = arr_formation_propre[:,0]
 #print(taux_acces)
 
 
-rang_dernier_appele_groupe1 = arr_formation[:,1]
+rang_dernier_appele_groupe1 = arr_formation_propre[:,1]
 #print(rang_dernier_appele_groupe1)
 
 
-effectif_total_candidats = arr_formation[:,2]
+effectif_total_candidats = arr_formation_propre[:,2]
 #print(effectif_total_candidats)
 
-departement_code = arr_formation[:,3]
+departement_code = arr_formation_propre[:,3]
 #print(departement_code)
 
 
@@ -81,11 +87,6 @@ nb_lignes = len(taux_acces)
 # initialiser X
 X = np.zeros((nb_lignes, 4))
 
-# Filtre des lignes pour eviter la valeur nul
-taux_liste = []
-rang_liste = []
-effectif_liste = []
-departement_liste = []
 
 # ajout collone par collone
 X[:, 0] = np.ones(nb_lignes)                  
