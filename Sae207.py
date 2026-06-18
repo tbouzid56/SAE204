@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import numpy.linalg as la
 
 # importer le csv dans le python
-df_formation =  pd.read_csv("export_csv.csv", sep=";") #ici, préciser le séparateur du csv permet d'évite que les cases contiennes tous des guillemets 
+df_formation =  pd.read_csv("export_csv.csv", sep=";") # sep pour preciser le séparateur
 # test pour voir si c'est bien dans la variable
 #print(df_formation.head())
 #print(df_formation.columns)
