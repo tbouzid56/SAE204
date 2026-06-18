@@ -81,6 +81,11 @@ nb_lignes = len(taux_acces)
 # initialiser X
 X = np.zeros((nb_lignes, 4))
 
+# Filtre des lignes pour eviter la valeur nul
+taux_liste = []
+rang_liste = []
+effectif_liste = []
+departement_liste = []
 
 # ajout collone par collone
 X[:, 0] = np.ones(nb_lignes)                  
