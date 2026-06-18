@@ -79,7 +79,7 @@ plt.show()
 nb_lignes = len(taux_acces)
 
 # initialiser X
-X = np.zeros((nb_lignes, 5))
+X = np.zeros((nb_lignes, 4))
 
 
 # ajout collone par collone
@@ -88,7 +88,7 @@ X[:, 1] = rang_dernier_appele_groupe1
 X[:, 2] = effectif_total_candidats 
 X[:, 3] = departement_code 
 
-# cration de la matrice Y
+# crétion de la matrice Y
 Y = np.array(taux_acces)
 
 # transposer de X
