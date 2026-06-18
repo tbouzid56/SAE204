@@ -114,3 +114,6 @@ A = M2 @ N
 
 # Affichage de la matrice A
 print(A)
+
+# Affichage de la régretion linéaire
+print("Taux d'acces = ", A[1] ," x rang_dernier_appele + ", A[2]," x effectif_total + ", A[3]," x code_departement + ",A[0])
