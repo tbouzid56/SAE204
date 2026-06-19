@@ -116,4 +116,4 @@ A = M2 @ N
 print(A)
 
 # Affichage de la régretion linéaire
-print("Taux d'acces = ", A[1] ," x rang_dernier_appele + ", A[2]," x effectif_total + ", A[3]," x code_departement + ",A[0])
+print("Taux d'acces prédit = ", A[1] ," x rang_dernier_appele + ", A[2]," x effectif_total + ", A[3]," x code_departement + ",A[0])
