@@ -20,7 +20,7 @@ lignes_avec_nan = np.isnan(arr_formation).any(axis=1)
 
 # pour supprimer les lignes avec une valeur null (le ~ c'est pour tous garder sauf ce que y a dans lignes avec nan)
 arr_formation_propre = arr_formation[~lignes_avec_nan]
-
+print(arr_formation_propre)
 
 taux_acces = arr_formation_propre[:,0]
 # print(taux_acces)
@@ -126,14 +126,21 @@ print(A)
 print("Taux d'acces prédit = ", A[1] ," x rang_dernier_appele + ", A[2]," x effectif_total + ", A[3]," x code_departement + ",A[0])
 
 # Fonction pour calculer le taux d'accès prédit par ligne 
-def pred_taux_acces(X1, X2, X3) :
-    return (A[1] * X1 + A[2] * X2 + A[3] * X3 + A[0])
+def pred_taux_acces(i): #pour i je met le num de la ligne propre dcp, plutot que mettre toutes les valeurs à la mano...
+    return A[1]*rang_dernier_appele_groupe1[i] + A[2]*effectif_total_candidats[i] + A[3]*departement_code[i] + A[0]
 
 
-# Calcule de l'erreur au carré 
-def erreur_carre(X1, X2 , X3, Y) :
-    return ((pred_taux_acces(X1, X2, X3) - Y)**2)
+# Calcule de l'erreur au carré (taux acces)
+def erreur_carre(i) :
+    return ((pred_taux_acces(i) - arr_formation_propre[i])**2)
 
 # Calcule de l'erreur moyenne 
-def moyenne() :
-    for i in range arr_formation_propre :
+nb_ligne_propre = len(arr_formation_propre)
+def erreur_moyenne() :
+    a = 0
+    for i in range(nb_ligne_propre):
+        a = a + erreur_carre(i)
+    return a / nb_ligne_propre
+
+
+
