@@ -132,7 +132,7 @@ def pred_taux_acces(i): #pour i je met le num de la ligne propre dcp, plutot que
 
 # Calcule de l'erreur au carré (taux acces)
 def erreur_carre(i) :
-    return ((pred_taux_acces(i) - arr_formation_propre[i])**2)
+    return ((pred_taux_acces(i) - arr_formation_propre[i][0])**2)
 
 # Calcule de l'erreur moyenne 
 nb_ligne_propre = len(arr_formation_propre)
