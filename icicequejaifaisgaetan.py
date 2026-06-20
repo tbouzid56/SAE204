@@ -1,9 +1,10 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import numpy.linalg as la
 
 # importer le csv dans le python
-df_formation =  pd.read_csv("export_csv.csv", sep=";") #ici, préciser le séparateur du csv permet d'évite que les cases contiennes tous des guillemets 
+df_formation =  pd.read_csv("export_csv.csv", sep=";") # sep pour preciser le séparateur
 # test pour voir si c'est bien dans la variable
 #print(df_formation.head())
 #print(df_formation.columns)
@@ -14,32 +15,45 @@ df_formation =  pd.read_csv("export_csv.csv", sep=";") #ici, préciser le sépar
 arr_formation = df_formation.to_numpy() 
 # print(arr_formation)
 
+# verif ligne par ligne de si oui ou non y a une valeur null
+lignes_avec_nan = np.isnan(arr_formation).any(axis=1)
 
-taux_acces = arr_formation[:,0]
-#print(taux_acces)
+# pour supprimer les lignes avec une valeur null (le ~ c'est pour tous garder sauf ce que y a dans lignes avec nan)
+arr_formation_propre = arr_formation[~lignes_avec_nan]
 
 
-rang_dernier_appele_groupe1 = arr_formation[:,1]
+taux_acces = arr_formation_propre[:,0]
+# print(taux_acces)
+
+
+rang_dernier_appele_groupe1 = arr_formation_propre[:,1]
 #print(rang_dernier_appele_groupe1)
 
 
-effectif_total_candidats = arr_formation[:,2]
+effectif_total_candidats = arr_formation_propre[:,2]
 #print(effectif_total_candidats)
 
-departement_code = arr_formation[:,3]
+departement_code = arr_formation_propre[:,3]
 #print(departement_code)
 
 
 
 # Boites a moustaches 
-liste_boites = [taux_acces, departement_code, effectif_total_candidats]
-plt.boxplot(liste_boites)
-plt.show()
+# liste_boites = [taux_acces, departement_code, effectif_total_candidats]
+# plt.boxplot(liste_boites)
+# plt.show()
 
 # 2eme Boites a moustaches 
 liste_boites2 = [taux_acces, effectif_total_candidats]
 plt.boxplot(liste_boites2)
 plt.show()
+
+
+# 3eme Boites a moustaches 
+liste_boites2 = [taux_acces, departement_code]
+plt.boxplot(liste_boites2)
+plt.show()
+
 
 
 
@@ -71,42 +85,55 @@ plt.axis([0, 100, 0, 100])
 
 plt.show()
 
-import numpy.linalg as la
 
-# Régression linéaire multiple
 
-# Filtrer les lignes contenant un nan (un nan est toujours différent de lui-même)
-taux_liste = []
-rang_liste = []
-effectif_liste = []
-departement_liste = []
+# Régression linéaire 
 
-for i in range(len(taux_acces)):
-    t = float(taux_acces[i])
-    r = float(rang_dernier_appele_groupe1[i])
-    e = float(effectif_total_candidats[i])
-    d = float(departement_code[i])
-    if t == t and r == r and e == e and d == d:
-        taux_liste.append(t)
-        rang_liste.append(r)
-        effectif_liste.append(e)
-        departement_liste.append(d)
+nb_lignes = len(taux_acces)
 
-Y = np.array(taux_liste)
-n = len(Y)
-uns = np.ones(n)
-X = np.array([uns, rang_liste, effectif_liste, departement_liste]).T
+# initialiser X
+X = np.zeros((nb_lignes, 4))
 
-M = X.T @ X
-V = X.T @ Y
-A = la.solve(M, V)
 
-b  = A[0]
-a1 = A[1]
-a2 = A[2]
-a3 = A[3]
+# ajout collone par collone
+X[:, 0] = np.ones(nb_lignes)                  
+X[:, 1] = rang_dernier_appele_groupe1
+X[:, 2] = effectif_total_candidats 
+X[:, 3] = departement_code 
 
-print("b  =", b)
-print("a1 =", a1)
-print("a2 =", a2)
-print("a3 =", a3)
+# crétion de la matrice Y
+Y = np.array(taux_acces)
+
+# transposer de X
+tX = X.T
+
+# Résultat de produit matriciel entre la transpose de X et X
+M = tX @ X
+
+# Matrice inverce de la matrice M
+M2 = la.inv(M)
+
+# Résultat de produit matriciel entre la transpose de X et Y
+N = tX @ Y
+
+# Calcule de la Matrice A
+A = M2 @ N
+
+# Affichage de la matrice A
+print(A)
+
+# Affichage de la régretion linéaire
+print("Taux d'acces prédit = ", A[1] ," x rang_dernier_appele + ", A[2]," x effectif_total + ", A[3]," x code_departement + ",A[0])
+
+# Fonction pour calculer le taux d'accès prédit par ligne 
+def pred_taux_acces(X1, X2, X3) :
+    return (A[1] * X1 + A[2] * X2 + A[3] * X3 + A[0])
+
+
+# Calcule de l'erreur au carré 
+def erreur_carre(X1, X2 , X3, Y) :
+    return ((pred_taux_acces(X1, X2, X3) - Y)**2)
+
+# Calcule de l'erreur moyenne 
+def moyenne() :
+    for i in range arr_formation_propre :

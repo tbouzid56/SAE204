@@ -23,7 +23,7 @@ arr_formation_propre = arr_formation[~lignes_avec_nan]
 
 
 taux_acces = arr_formation_propre[:,0]
-#print(taux_acces)
+# print(taux_acces)
 
 
 rang_dernier_appele_groupe1 = arr_formation_propre[:,1]
@@ -39,14 +39,21 @@ departement_code = arr_formation_propre[:,3]
 
 
 # Boites a moustaches 
-liste_boites = [taux_acces, departement_code, effectif_total_candidats]
-plt.boxplot(liste_boites)
-plt.show()
+# liste_boites = [taux_acces, departement_code, effectif_total_candidats]
+# plt.boxplot(liste_boites)
+# plt.show()
 
 # 2eme Boites a moustaches 
 liste_boites2 = [taux_acces, effectif_total_candidats]
 plt.boxplot(liste_boites2)
 plt.show()
+
+
+# 3eme Boites a moustaches 
+liste_boites2 = [taux_acces, departement_code]
+plt.boxplot(liste_boites2)
+plt.show()
+
 
 
 
@@ -117,3 +124,16 @@ print(A)
 
 # Affichage de la régretion linéaire
 print("Taux d'acces prédit = ", A[1] ," x rang_dernier_appele + ", A[2]," x effectif_total + ", A[3]," x code_departement + ",A[0])
+
+# Fonction pour calculer le taux d'accès prédit par ligne 
+def pred_taux_acces(X1, X2, X3) :
+    return (A[1] * X1 + A[2] * X2 + A[3] * X3 + A[0])
+
+
+# Calcule de l'erreur au carré 
+def erreur_carre(X1, X2 , X3, Y) :
+    return ((pred_taux_acces(X1, X2, X3) - Y)**2)
+
+# Calcule de l'erreur moyenne 
+def moyenne() :
+    for i in range arr_formation_propre :
