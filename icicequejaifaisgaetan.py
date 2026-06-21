@@ -43,47 +43,7 @@ departement_code = arr_formation_propre[:,3]
 # plt.boxplot(liste_boites)
 # plt.show()
 
-# 2eme Boites a moustaches 
-liste_boites2 = [taux_acces, effectif_total_candidats]
-plt.boxplot(liste_boites2)
-plt.show()
-
-
-# 3eme Boites a moustaches 
-liste_boites2 = [taux_acces, departement_code]
-plt.boxplot(liste_boites2)
-plt.show()
-
-
-
-
-# Nuage de points
-
-plt.plot(effectif_total_candidats, taux_acces, 'ro')
-plt.xlabel("effectif total des candidats ")
-plt.ylabel("taux d'acces (en %)")
-plt.axis()
-
-plt.show()
-
-# 2eme nuage de point
-
-plt.plot(rang_dernier_appele_groupe1, taux_acces, 'ro')
-plt.xlabel("rang du dernier appeler du groupe 1")
-plt.ylabel("taux d'acces (en %)")
-plt.axis()
-
-plt.show()
-
-
-# 3eme nuage de point
-
-plt.plot(departement_code, taux_acces, 'ro')
-plt.xlabel("Code de département")
-plt.ylabel("taux d'acces (en %)")
-plt.axis([0, 100, 0, 100])
-
-plt.show()
+#
 
 
 
@@ -130,9 +90,12 @@ def pred_taux_acces(i): #pour i je met le num de la ligne propre dcp, plutot que
     return A[1]*rang_dernier_appele_groupe1[i] + A[2]*effectif_total_candidats[i] + A[3]*departement_code[i] + A[0]
 
 
+
 # Calcule de l'erreur au carré (taux acces)
 def erreur_carre(i) :
     return ((pred_taux_acces(i) - arr_formation_propre[i][0])**2)
+
+
 
 # Calcule de l'erreur moyenne 
 nb_ligne_propre = len(arr_formation_propre)
@@ -140,7 +103,25 @@ def erreur_moyenne() :
     a = 0
     for i in range(nb_ligne_propre):
         a = a + erreur_carre(i)
-    return a / nb_ligne_propre
+    return a / nb_ligne_propre  
 
 
 
+
+# Calcule du coefficient de correlation multiple
+def Moyenne(Y) :
+    return sum(Y) / len(Y)
+
+def Variance(Y):
+    m = Moyenne(Y)
+    somme = 0
+
+    for i in range(len(Y)):
+        somme = somme + (Y[i] - m)**2
+
+    return somme / len(Y)
+
+def Cor(Y) :
+    return ((1 - (erreur_moyenne() / Variance(Y)))**0.5)
+
+print(Cor(taux_acces))
