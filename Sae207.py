@@ -8,7 +8,6 @@ import numpy.linalg as la
 df_formation =  pd.read_csv("export_csv.csv", sep=";") 
 
 
-# Passer ensuite en numpy.array les données de df_num_lannion :
 arr_formation = df_formation.to_numpy() 
 
 
@@ -16,7 +15,7 @@ arr_formation = df_formation.to_numpy()
 lignes_avec_nan = np.isnan(arr_formation).any(axis=1)
 arr_formation_propre = arr_formation[~lignes_avec_nan]
 
-
+# Creation des variables
 taux_acces = arr_formation_propre[:,0]
 rang_dernier_appele_groupe1 = arr_formation_propre[:,1]
 effectif_total_candidats = arr_formation_propre[:,2]
@@ -63,19 +62,18 @@ plt.show()
 #----------------------------------------------------------------------
 # PARTIE C
 # Régression linéaire 
+
 nb_lignes = len(taux_acces)
 
-# initialiser X
+# Crétion de la matrice X
 X = np.zeros((nb_lignes, 4))
 
-
-# ajout collone par collone
 X[:, 0] = np.ones(nb_lignes)                  
 X[:, 1] = rang_dernier_appele_groupe1
 X[:, 2] = effectif_total_candidats 
 X[:, 3] = departement_code 
 
-# crétion de la matrice Y
+# Crétion de la matrice Y
 Y = np.array(taux_acces)
 
 tX = X.T
@@ -88,9 +86,6 @@ N = tX @ Y
 
 A = M2 @ N
 
-
-print(A)
-
 # Affichage de la régretion linéaire
 print("Taux d'acces prédit = ", A[1] ," x rang_dernier_appele + ", A[2]," x effectif_total + ", A[3]," x code_departement + ",A[0])
 
@@ -98,8 +93,8 @@ print("Taux d'acces prédit = ", A[1] ," x rang_dernier_appele + ", A[2]," x eff
 #----------------------------------------------------------------------
 # PARTIE D (Plus difficile)
 
-# Fonction pour calculer le taux d'accès prédit par ligne 
-def pred_taux_acces(i): #pour i je met le num de la ligne propre dcp, plutot que mettre toutes les valeurs à la mano...
+
+def pred_taux_acces(i): 
     return A[1]*rang_dernier_appele_groupe1[i] + A[2]*effectif_total_candidats[i] + A[3]*departement_code[i] + A[0]
 
 
